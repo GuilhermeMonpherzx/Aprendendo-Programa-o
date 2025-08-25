@@ -1,0 +1,28 @@
+/* Estilos básicos para o formulário */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.form-group {
+margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #b4b4b4;
+    border-radius: 4px;
+}
+input[type="submit"] {
+    background-color: #1752ac;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

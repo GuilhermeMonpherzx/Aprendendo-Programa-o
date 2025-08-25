@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cadastro:</title>
+    <link rel="stylesheet" href="styles.css">
+    <head>
+    <body>
+        <h1>Formulário de Cadastro:</h1>
+        <form action="submit_form.php" method="POST">
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required placeholder="Digite seu CPF"><br><br>
+
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required placeholder="Digite seu Nome"><br><br>
+
+            <label for="sobrenome">Sobrenome:</label>
+            <input type="text" id="sobrenome" name="sobrenome" required placeholder="Digite seu Sobrenome"><br><br>
+            <label for="data de nascimento">Data de Nascimento:</label>
+            <input type="date" id="data_nascimento" name="data_nascimento" required><br><br>
+            <label for="Endereço">Endereço:</label>
+            <input type="text" id="endereço" nome="endereço" required placeholder="Digite seu Endereço"><br><br>
+            <label for="Cidade">Cidade:</label>
+            <input type="text" id="cidade" nome="cidade" required placeholder="Digite sua Cidade"><br><br>
+            <label for="Estado">Estado:</label>
+            <input type="text" id="estado" nome="estado" required placeholder="Digite seu Estado"><br><br>
+            <input type="submit" value="Enviar">
+        </form>
+    </body>    
+    </head>
