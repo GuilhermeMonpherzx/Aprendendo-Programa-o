@@ -2,7 +2,7 @@ import time
 salario = 0
 gastos = []
 
-def adicionar_gasto():
+def adicionar_salario():
     global salario
     while True:
         try:
@@ -17,12 +17,11 @@ def adicionar_gasto_mensal():
     while True:
         try:
             gastomensal = float(input("Digite o valor do seu gasto mensal: R$"))
-            gastos.append(('Mensal', gastomensal))
             break
         except ValueError:
             print("\033[31mDigite apenas números!\033[0m")
-        print(f"\n\033[32mA Gasto mensal é de R$ {gastomensal:.2f} adicionado. \033[0m")
-        return menu()
+    print(f"\n\033[32mA Gasto mensal é de R$ {gastomensal:.2f} adicionado. \033[0m")
+    return menu()
 
 def adicionar_gasto_categoria():
     print("Selecione o tipo de categoria:")
@@ -52,13 +51,18 @@ def adicionar_gasto_categoria():
 def ver_relatorio():
     print("\n\033[36mAnalisando os gastos...\033[0m")
     time.sleep(1)
+
     if not gastos:
         print("\n\033[31mNenhum Gasto Registrado! \033[0m")
         return menu()
     else:
         print("\n-----Relatório de Gastos-----")
+        if not salario:
+            print("Nenhum Salário Registrado!")
+        else:
+            print(f"Sálario: {salario:.2f}")
         total_gastos = 0
-        for categoria, valor in gastos:
+        for  categoria, valor in gastos:
             print(f"{categoria}: R$ {valor:.2f}")
             total_gastos += valor
         print(f"\nTotal de Gastos: R$ {total_gastos:.2f}")
@@ -69,16 +73,6 @@ def ver_relatorio():
             print("Salário não registrado.")
         return menu()
 
-def ver_media_gastos():
-    print("\n\033[36mCalculando média dos gastos...\033[0m")
-    time.sleep(1)
-    if not gastos:
-        print("\n\033[31mNenhum Gasto Registrado! \033[0m")
-    else:
-        total_gastos = sum(valor for _, valor in gastos)
-        media = total_gastos / len(gastos)
-        print(f"\nMédia dos Gastos: R$ {media:.2f}")
-    return menu()
 def menu():
     print("\n", 10*" =", "\n   Controle de Gastos Pessoais:", "\n", 10*" =")
     print("1. Registrar Salário Mensal")
@@ -87,9 +81,9 @@ def menu():
     print("4. Ver Relatório de Gastos")
     print("5. Ver Média dos Gastos")
     print("6. Encerrar Programa")
-    opção = input("Escolha uma opção (1-6):")
+    opção = input("Escolha uma opção (1-5):")
     if opção == '1':
-        return adicionar_gasto()
+        return adicionar_salario()
     elif opção == '2':
         return adicionar_gasto_mensal()
     elif opção == '3':
@@ -97,13 +91,11 @@ def menu():
     elif opção == '4':
         return ver_relatorio()
     elif opção == '5':
-        return ver_media_gastos()
-    elif opção == '6':
         time.sleep(1)
         print ("\n\033[33m---Programa encerrado!---\033[0m")
         return True
     else:
-        print("\n\033[31m---Digite um Número entre 1 a 6!---\033[0m")
+        print("\n\033[31m---Digite um Número entre 1 a 5!---\033[0m")
         return False
 while True:
     if menu():
