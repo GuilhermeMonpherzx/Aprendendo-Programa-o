@@ -7,31 +7,36 @@ def adicionar_salario(): #Defini a função Adicionar Salário
     while True: #Aqui ele cria um loop infinito
         try: #Aqui ele tenta transformar o que foi digitado em número decimal por causa do FLOAT 
             salario = float(input("Digite o valor do seu salário mensal: R$")) #Defini uma variável e ele poder receber números quebrados e inteiros, mostra a string
-            break #Se ele não deu erro o break faz o loop parar, se não ele continua o loop
+            if salario > 0:
+                print(f"\n\033[32mA Salário de R$ {salario:.2f}  foi registrado com sucesso. \033[0m") #Depois de ter passado pela verificação ele printa que foi registrado
+            else:
+                print("\n\033[31mSalário não pode ser  ZERO ou NEGATIVO!\n\033[0m") #Aqui ele printa a string 
+            break  #Se ele não deu erro o break faz o loop parar, se não ele continua o loop
         except ValueError: #Ele verificar se foi digitado só números, se você colocar  um número ele da certo, se for letra ai ele da erro
-            print("\033[31mDigite apenas números!\033[0m") #Ele vai printar na tela para digitar apenas números
-    print(f"\n\033[32mA Salário de R$ {salario:.2f}  foi registrado com sucesso. \033[0m") #Depois de ter passado pela verificação ele printa que foi registrado
+            print("\033[31mDigite apenas números!\033[0m") #Ele vai printar na tela para digitar apenas números  
     return menu() #Ele retorna para o menu
-
 def adicionar_gasto_mensal(): #Defini a função Adicionar Gasto Mensal
     while True: #Cria o loop infinito
         try: #Ele tenta transformar o que foi digitado para número decimal
             gastomensal = float(input("Digite o valor do seu gasto mensal: R$"))#Defini uma uma variável para receber números(INT ou FLOAT), e mostra a string
+            if gastomensal > 0:
+                print(f"\n\033[32mA Salário de R$ {gastomensal:.2f}  foi registrado com sucesso. \033[0m") #Depois de ter passado pela verificação ele printa que foi registrado
+            else:
+                print("\n\033[31mSalário não pode ser NEGATIVO!\n\033[0m") #Printa a string
             break #Se ele não deu erro, ele para o loop, mas se não, ele continua o loop
         except ValueError: #Ele vê se foi digitado algo diferente de número, ele vai aparecer para digitar apenas números, mas se digitou certo, ele não aparece
             print("\033[31mDigite apenas números!\033[0m") #Ele printa a string
-    print(f"\n\033[32mA Gasto mensal é de R$ {gastomensal:.2f} foi registrado com sucesso. \033[0m") #Ele printa a string e a variável
     return menu() #Retorna para o menu novamente
 
 def adicionar_gasto_categoria():  # Defini uma função Adicionar Gasto por Categoria
     print("Selecione o tipo de categoria:")  # Mostra as opções por categoria
-    print("1. Alimentação")  #opção 1
-    print("2. Transporte")  #opção 2
-    print("3. Lazer")  #opção 3
-    print("4. Saúde")  #opção 4
-    print("5. Outros")  #opção 5
+    print("1. Alimentação")  # opção 1
+    print("2. Transporte")  # opção 2
+    print("3. Lazer")  # opção 3
+    print("4. Saúde")  # opção 4
+    print("5. Outros")  # opção 5
 
-    categoria_opcao = input("Escolha uma categoria (1-5): ")  # Lê a escolha que deseja como uma string
+    categoria_opcao = input("Escolha uma categoria (1-5): ")  # Lê a escolha do usuário como string
 
     categorias = {  # Ele mapeia as categorias
         '1': 'Alimentação',
@@ -43,22 +48,31 @@ def adicionar_gasto_categoria():  # Defini uma função Adicionar Gasto por Cate
 
     if categoria_opcao in categorias:  # Ele valida se a opção existe
         if categoria_opcao == '5':  # Caso seja "Outros"
-            categoria_escolhida = input("Digite o nome para especificar a categoria: ") #Ele pede para especificar a categoria e ele guarda dentro da variável categoria escolhida
+            categoria_escolhida = input("Digite o nome para especificar a categoria: ")  # Pede para especificar a categoria
         else:
-            categoria_escolhida = categorias[categoria_opcao]
+            categoria_escolhida = categorias[categoria_opcao]  # Pega a categoria pelo dicionário
 
         try:
-            valor = float(input(f"Digite o valor do gasto em {categoria_escolhida}: R$ ")) 
+            valor = float(input(f"Digite o valor do gasto em {categoria_escolhida}: R$ "))  # Recebe o valor do gasto
+
+            if valor <= 0:  # Impede valores negativos ou zero
+                print("\n\033[31mO valor do gasto não pode ser ZERO ou NEGATIVO!\n\033[0m") #Printa a string
+                return adicionar_gasto_categoria()  # Retorna para a função se o valor for inválido
+
             gastos.append((categoria_escolhida, valor))  # Salva o nome da categoria e o valor dentro da lista
-            print(f"\n\033[32mGasto de R$ {valor:.2f} em {categoria_escolhida} adicionado. \033[0m")
-            print(gastos)  #Só pra debug, pode remover
-        except ValueError: #Se tiver algo diferente de números ele vai dar erro, caso contrário não 
-            print("\n\033[31mDigite apenas números para o gasto!\033[0m") #Ele printa a String
-            return adicionar_gasto_categoria() #Retorna em Adicionar Gasto por Categoria
-        return menu() #Retorna no menu
+            print(f"\n\033[32mGasto de R$ {valor:.2f} em {categoria_escolhida} adicionado. \033[0m")  # Mostra mensagem de sucesso
+            print(gastos)  # Só para debug, pode remover depois
+
+        except ValueError:  # Se tiver algo diferente de número ele vai dar erro
+            print("\n\033[31mDigite apenas números para o gasto!\033[0m")  # Mostra a mensagem de erro
+            return adicionar_gasto_categoria()  # Retorna em Adicionar Gasto por Categoria
+
+        return menu()  # Retorna para o menu
     else:
-        print("\n\033[31m-----Digite um número Válido!-----\033[0m") #Ele vai pedir pra digitar um número válido
-        return adicionar_gasto_categoria() #Retorna em Adicionar Gasto por Categoria
+        print("\n\033[31m-----Digite um número Válido!-----\033[0m")  # Mensagem caso a opção seja inválida
+        return adicionar_gasto_categoria()  # Retorna em Adicionar Gasto por Categoria
+
+
 
 
 def ver_relatorio(): #Defini a função Ver Relatório
