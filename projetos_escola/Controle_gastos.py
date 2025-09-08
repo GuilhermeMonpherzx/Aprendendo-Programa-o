@@ -1,3 +1,4 @@
+#Grupo: Guilherme Broccolo Monteiro-INFA
 import time # importa a biblioteca de TIME
 salario = 0 #Define o salário inicial igual a 0
 gastos = [] #Abro a lista chamada GASTOS
