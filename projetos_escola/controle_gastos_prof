@@ -1,0 +1,201 @@
+# Grupo: Guilherme Broccolo Monteiro-INFA
+import time
+# NOTE Organizando variáveis globais com valores iniciais mais claros
+salario = 0.0
+gastos = []  # Lista para armazenar gastos por categoria
+gastos_mensais = 0.0  # Valor único para gastos mensais fixos
+
+
+def adicionar_salario():
+    """NOTE Removida recursão desnecessária - função agora apenas registra o salário"""
+    global salario
+    while True:
+        try:
+            # NOTE Validação melhorada para entrada vazia
+            entrada = input("Digite o valor do seu salário mensal: R$").strip()
+            if not entrada:
+                print("\033[31mPor favor, digite um valor!\033[0m")
+                continue
+
+            salario = float(entrada)
+            if salario > 0:
+                print(
+                    f"\n\033[32mSalário de R$ {salario:.2f} foi registrado com sucesso.\033[0m")
+                break
+            else:
+                print(
+                    "\n\033[31mSalário não pode ser ZERO ou NEGATIVO!\n\033[0m")
+        except ValueError:
+            print("\033[31mDigite apenas números válidos!\033[0m")
+
+
+def adicionar_gasto_mensal():
+    """NOTE Removida chamada de menu() desnecessária"""
+    global gastos_mensais
+    while True:
+        try:
+            # NOTE Validação melhorada para entrada vazia
+            entrada = input("Digite o valor do seu gasto mensal: R$").strip()
+            if not entrada:
+                print("\033[31mPor favor, digite um valor!\033[0m")
+                continue
+
+            gastos_mensais = float(entrada)
+            if gastos_mensais > 0:
+                print(
+                    f"\n\033[32mGasto mensal de R$ {gastos_mensais:.2f} foi registrado com sucesso.\033[0m")
+                break
+            else:
+                print(
+                    "\n\033[31mGasto não pode ser ZERO ou NEGATIVO!\n\033[0m")
+        except ValueError:
+            print("\033[31mDigite apenas números válidos!\033[0m")
+
+
+def adicionar_gasto_categoria():
+    """NOTE Melhorada validação e removida recursão desnecessária"""
+    print("Selecione o tipo de categoria:")
+    print("1. Alimentação")
+    print("2. Transporte")
+    print("3. Lazer")
+    print("4. Saúde")
+    print("5. Outros")
+
+    while True:  # NOTE Loop para validar categoria
+        categoria_opcao = input("Escolha uma categoria (1-5): ").strip()
+
+        categorias = {
+            '1': 'Alimentação',
+            '2': 'Transporte',
+            '3': 'Lazer',
+            '4': 'Saúde',
+            '5': 'Outros'
+        }
+
+        if categoria_opcao in categorias:
+            if categoria_opcao == '5':
+                while True:  # NOTE Validar categoria personalizada
+                    categoria_escolhida = input(
+                        "Digite o nome para especificar a categoria: ").strip()
+                    if categoria_escolhida:
+                        break
+                    print(
+                        "\033[31mPor favor, digite um nome válido para a categoria!\033[0m")
+            else:
+                categoria_escolhida = categorias[categoria_opcao]
+
+            while True:  # NOTE Loop para validar valor
+                try:
+                    entrada_valor = input(
+                        f"Digite o valor do gasto em {categoria_escolhida}: R$ ").strip()
+                    if not entrada_valor:
+                        print("\033[31mPor favor, digite um valor!\033[0m")
+                        continue
+
+                    valor = float(entrada_valor)
+                    if valor <= 0:
+                        print(
+                            "\n\033[31mO valor do gasto não pode ser ZERO ou NEGATIVO!\n\033[0m")
+                        continue
+
+                    gastos.append((categoria_escolhida, valor))
+                    print(
+                        f"\n\033[32mGasto de R$ {valor:.2f} em {categoria_escolhida} adicionado.\033[0m")
+                    return  # NOTE Retorna sem chamar menu()
+
+                except ValueError:
+                    print(
+                        "\n\033[31mDigite apenas números para o gasto!\033[0m")
+
+        else:
+            print("\n\033[31m-----Digite um número Válido (1-5)!-----\033[0m")
+
+
+def ver_relatorio():
+    """NOTE Removida recursão desnecessária e melhorada apresentação"""
+    print("\n\033[36mAnalisando os gastos...\033[0m")
+    time.sleep(1)
+
+    if not gastos and gastos_mensais == 0:
+        print("\n\033[31mNenhum Gasto Registrado! \033[0m")
+        return
+
+    print("\n" + "="*40)
+    print("           RELATÓRIO DE GASTOS")
+    print("="*40)
+
+    if salario == 0:
+        print("Nenhum Salário Registrado!")
+    else:
+        print(f"Salário: R$ {salario:.2f}")
+
+    total_gastos = gastos_mensais
+
+    if gastos:
+        print("\nGastos por Categoria:")
+        for categoria, valor in gastos:
+            print(f"   • {categoria}: R$ {valor:.2f}")
+            total_gastos += valor
+
+    if gastos_mensais > 0:
+        print(f"\nGastos Mensais Fixos: R$ {gastos_mensais:.2f}")
+
+    print(f"\nTotal de Gastos: R$ {total_gastos:.2f}")
+
+    if salario > 0:
+        saldo = salario - total_gastos
+        if saldo >= 0:
+            print(f"Saldo Restante: R$ {saldo:.2f}")
+        else:
+            print(f"Déficit: R$ {abs(saldo):.2f}")
+            print("ATENÇÃO: Seus gastos excedem sua renda!")
+    else:
+        print("Registre seu salário para ver o saldo.")
+
+    print("="*40)
+
+
+def menu():
+    """NOTE Função menu agora apenas exibe opções e retorna a escolha do usuário"""
+    print("\n", 10*" =", "\n   Controle de Gastos Pessoais:", "\n", 10*" =")
+    print("1. Registrar Salário Mensal")
+    print("2. Adicionar Gastos Mensais")
+    print("3. Adicionar Gastos por Categoria")
+    print("4. Ver Relatório de Gastos")
+    # TODO alterar para sair na opcao 0, para facilitar a adiçao de mais opcoes futuramente
+    print("5. Encerrar Programa")
+
+    while True:  # NOTE Loop para validar entrada do menu
+        opcao = input("Escolha uma opção (1-5): ").strip()
+        if opcao in ['1', '2', '3', '4', '5']:
+            return opcao
+        else:
+            print("\n\033[31m---Digite um número entre 1 a 6!---\033[0m")
+
+
+def main():
+    """NOTE Função principal que controla o fluxo do programa sem recursão"""
+    while True:
+        opcao = menu()
+
+        if opcao == '1':
+            adicionar_salario()
+        elif opcao == '2':
+            adicionar_gasto_mensal()
+        elif opcao == '3':
+            adicionar_gasto_categoria()
+        elif opcao == '4':
+            ver_relatorio()
+        elif opcao == '5':
+            # NOTE Confirmação antes de sair
+            confirmacao = input(
+                "\nDeseja realmente sair? (s/n): ").strip().lower()
+            if confirmacao in ['s', 'sim', 'y', 'yes']:
+                time.sleep(1)
+                print("\n\033[33m---Programa encerrado!---\033[0m")
+                break
+
+
+# NOTE Execução segura do programa principal
+if __name__ == "__main__":
+    main()
