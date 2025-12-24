@@ -1,4 +1,4 @@
-import time 
+import time
 salario = 0 
 gastos = [] 
 
